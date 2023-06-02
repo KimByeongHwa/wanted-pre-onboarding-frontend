@@ -25,7 +25,39 @@ function App() {
 }
 
 const GlobalStyle = createGlobalStyle`
-    
+    html{
+        width: 100%;
+        height: 100%;
+    }
+
+    body{
+        font-family: 'Noto Sans KR', 'Roboto', sans-serif;
+        color: #333;
+        width: 1200px;
+        margin: 0 auto;
+        padding-top: 10%;
+    }
+
+    a{
+        font-family: 'Noto Sans KR', 'Roboto', sans-serif;
+        color: #333;
+        text-decoration: none;
+    }
+
+    button{
+        font-family: 'Noto Sans KR', 'Roboto', sans-serif;
+        color: #333;
+        padding: 0;
+        margin: 0;        
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    input{
+        font-family: 'Noto Sans KR', 'Roboto', sans-serif;
+        color: #333;
+    }
 `;
 
 export default App;
