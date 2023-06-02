@@ -24,9 +24,11 @@ function SignUp() {
         signUpApi(emailInput, pwInput)
             .then((res) => {
                 console.log(res);
+                alert('회원가입에 성공하였습니다.');
             })
             .catch((err) => {
                 console.log(err);
+                alert('error');
             });
     }
 
