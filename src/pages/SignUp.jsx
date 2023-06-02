@@ -1,24 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { signUpApi } from '../api/auth';
 
 function SignUp() {
+    const [emailInput, setEmailInput] = useState('');
+    const [pwInput, setPwInput] = useState('');
+
+    function handleEmailInput(e) {
+        let input = e.target.value;
+        // console.log(input);
+        setEmailInput(input);
+    }
+
+    function handlePwInput(e) {
+        let input = e.target.value;
+        // console.log(input);
+        setPwInput(input);
+    }
+
+    function handleSignUp() {
+        // console.log('email', emailInput);
+        // console.log('pwInput', pwInput);
+        signUpApi(emailInput, pwInput)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    function handleEnter(e) {
+        if (e.key === 'Enter') {
+            handleSignUp();
+        }
+    }
+
     return (
         <Container>
             <Title>회원가입</Title>
             <FormContainer>
                 <Line>
                     <LineText>이메일</LineText>
-                    <StyledInput data-testid='email-input' placeholder='abc@example.com' />
+                    <StyledInput
+                        data-testid='email-input'
+                        placeholder='abc@example.com'
+                        onChange={handleEmailInput}
+                        onKeyDown={handleEnter}
+                    />
                 </Line>
                 <Line>
                     <LineText>비밀번호</LineText>
                     <StyledInput
                         data-testid='password-input'
                         placeholder='8자 이상 입력해주세요.'
+                        onChange={handlePwInput}
+                        onKeyDown={handleEnter}
                     />
                 </Line>
                 <ButtonWrapper>
-                    <SubmitButton data-testid='signup-button'>가입하기</SubmitButton>
+                    <SubmitButton data-testid='signup-button' onClick={handleSignUp}>
+                        가입하기
+                    </SubmitButton>
                 </ButtonWrapper>
             </FormContainer>
         </Container>
