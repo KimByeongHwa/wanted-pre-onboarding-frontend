@@ -115,15 +115,15 @@ const ButtonWrapper = styled.div`
     position: relative;
     right: 1.4rem;
     width: fit-content;
-    background-color: #275efe;
-    padding: 0.6rem 1.6rem;
-    border-radius: 4rem;
 `;
 
 const SubmitButton = styled.button`
     font-size: 1.4rem;
     font-weight: 500;
     color: #fff;
+    background-color: #275efe;
+    padding: 0.6rem 1.6rem;
+    border-radius: 4rem;
 `;
 
 export default SignUp;
