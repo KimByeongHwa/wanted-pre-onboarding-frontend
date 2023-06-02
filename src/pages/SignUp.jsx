@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { signUpApi } from '../api/auth';
+import { signUpApi } from '../api/signup';
 
 function SignUp() {
     const [emailInput, setEmailInput] = useState('');
