@@ -3,25 +3,26 @@ import styled from 'styled-components';
 import { signUpApi } from '../api/signup';
 
 function SignUp() {
-    const [emailInput, setEmailInput] = useState('');
-    const [pwInput, setPwInput] = useState('');
+    const [inputs, setInputs] = useState({
+        email: '',
+        password: '',
+    });
 
-    function handleEmailInput(e) {
-        let input = e.target.value;
-        // console.log(input);
-        setEmailInput(input);
-    }
+    const { email, password } = inputs;
 
-    function handlePwInput(e) {
-        let input = e.target.value;
-        // console.log(input);
-        setPwInput(input);
+    function handleInputs(e) {
+        const { name, value } = e.target;
+
+        setInputs({
+            ...inputs,
+            [name]: value,
+        });
     }
 
     function handleSignUp() {
-        // console.log('email', emailInput);
-        // console.log('pwInput', pwInput);
-        signUpApi(emailInput, pwInput)
+        // console.log('email', inputs.email);
+        // console.log('pwInput', inputs.password);
+        signUpApi(inputs.email, inputs.password)
             .then((res) => {
                 console.log(res);
                 alert('회원가입에 성공하였습니다.');
@@ -45,23 +46,27 @@ function SignUp() {
                 <Line>
                     <LineText>이메일</LineText>
                     <StyledInput
-                        data-testid='email-input'
-                        placeholder='abc@example.com'
-                        onChange={handleEmailInput}
+                        data-testid="email-input"
+                        placeholder="abc@example.com"
+                        onChange={handleInputs}
                         onKeyDown={handleEnter}
+                        name="email"
+                        value={email}
                     />
                 </Line>
                 <Line>
                     <LineText>비밀번호</LineText>
                     <StyledInput
-                        data-testid='password-input'
-                        placeholder='8자 이상 입력해주세요.'
-                        onChange={handlePwInput}
+                        data-testid="password-input"
+                        placeholder="8자 이상 입력해주세요."
+                        onChange={handleInputs}
                         onKeyDown={handleEnter}
+                        name="password"
+                        value={password}
                     />
                 </Line>
                 <ButtonWrapper>
-                    <SubmitButton data-testid='signup-button' onClick={handleSignUp}>
+                    <SubmitButton data-testid="signup-button" onClick={handleSignUp}>
                         가입하기
                     </SubmitButton>
                 </ButtonWrapper>
