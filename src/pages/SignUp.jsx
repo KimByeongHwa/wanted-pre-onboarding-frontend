@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { signUpApi } from '../api/signup';
 
@@ -7,6 +8,7 @@ function SignUp() {
         email: '',
         password: '',
     });
+    const [isDisabled, setIsDisabled] = useState(true);
 
     const { email, password } = inputs;
 
@@ -19,16 +21,39 @@ function SignUp() {
         });
     }
 
+    function checkValidation() {
+        const inputEmail = inputs.email;
+        const inputPassword = inputs.password;
+        // console.log(inputEmail, inputPassword);
+
+        let isEmail = false;
+        let isPassword = false;
+
+        inputEmail.includes('@') ? (isEmail = true) : (isEmail = false);
+        inputPassword.length >= 8 ? (isPassword = true) : (isPassword = false);
+
+        // console.log(isEmail, isPassword);
+
+        if (isEmail && isPassword) {
+            setIsDisabled(false);
+        } else setIsDisabled(true);
+    }
+
+    useEffect(() => {
+        checkValidation();
+    }, [inputs]);
+
+    const navigate = useNavigate();
+
     function handleSignUp() {
-        // console.log('email', inputs.email);
-        // console.log('pwInput', inputs.password);
         signUpApi(inputs.email, inputs.password)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 alert('회원가입에 성공하였습니다.');
+                navigate('/signin');
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
                 alert('error');
             });
     }
@@ -66,7 +91,11 @@ function SignUp() {
                     />
                 </Line>
                 <ButtonWrapper>
-                    <SubmitButton data-testid="signup-button" onClick={handleSignUp}>
+                    <SubmitButton
+                        data-testid="signup-button"
+                        onClick={handleSignUp}
+                        disabled={isDisabled}
+                    >
                         가입하기
                     </SubmitButton>
                 </ButtonWrapper>
@@ -129,6 +158,11 @@ const SubmitButton = styled.button`
     background-color: #275efe;
     padding: 0.6rem 1.6rem;
     border-radius: 4rem;
+
+    :disabled {
+        cursor: default;
+        opacity: 0.2;
+    }
 `;
 
 export default SignUp;
