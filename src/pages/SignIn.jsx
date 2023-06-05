@@ -4,6 +4,13 @@ import styled from 'styled-components';
 import { signInApi } from '../api/signin';
 
 function SignIn() {
+    const isLogin = localStorage.getItem('token');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isLogin) navigate('/todo');
+    }, [isLogin]);
+
     const [inputs, setInputs] = useState({
         email: '',
         password: '',
@@ -42,8 +49,6 @@ function SignIn() {
     useEffect(() => {
         checkValidation();
     }, [inputs]);
-
-    const navigate = useNavigate();
 
     function handleSignIn() {
         signInApi(inputs.email, inputs.password)
