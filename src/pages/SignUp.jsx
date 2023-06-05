@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { signUpApi } from '../api/signup';
+import StyledButton from '../components/StyledButton';
 
 function SignUp() {
     const isLogin = localStorage.getItem('token');
@@ -88,6 +89,7 @@ function SignUp() {
                     <LineText>비밀번호</LineText>
                     <StyledInput
                         data-testid='password-input'
+                        type='password'
                         placeholder='8자 이상 입력해주세요.'
                         onChange={handleInputs}
                         onKeyDown={handleEnter}
@@ -96,13 +98,13 @@ function SignUp() {
                     />
                 </Line>
                 <ButtonWrapper>
-                    <SubmitButton
+                    <StyledButton
                         data-testid='signup-button'
                         onClick={handleSignUp}
                         disabled={isDisabled}
                     >
                         가입하기
-                    </SubmitButton>
+                    </StyledButton>
                 </ButtonWrapper>
             </FormContainer>
         </Container>
@@ -154,20 +156,6 @@ const ButtonWrapper = styled.div`
     position: relative;
     right: 1.4rem;
     width: fit-content;
-`;
-
-const SubmitButton = styled.button`
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: #fff;
-    background-color: #275efe;
-    padding: 0.6rem 1.6rem;
-    border-radius: 4rem;
-
-    :disabled {
-        cursor: default;
-        opacity: 0.2;
-    }
 `;
 
 export default SignUp;
