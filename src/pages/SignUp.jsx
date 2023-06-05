@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { signUpApi } from '../api/signup';
@@ -71,28 +71,28 @@ function SignUp() {
                 <Line>
                     <LineText>이메일</LineText>
                     <StyledInput
-                        data-testid="email-input"
-                        placeholder="abc@example.com"
+                        data-testid='email-input'
+                        placeholder='abc@example.com'
                         onChange={handleInputs}
                         onKeyDown={handleEnter}
-                        name="email"
+                        name='email'
                         value={email}
                     />
                 </Line>
                 <Line>
                     <LineText>비밀번호</LineText>
                     <StyledInput
-                        data-testid="password-input"
-                        placeholder="8자 이상 입력해주세요."
+                        data-testid='password-input'
+                        placeholder='8자 이상 입력해주세요.'
                         onChange={handleInputs}
                         onKeyDown={handleEnter}
-                        name="password"
+                        name='password'
                         value={password}
                     />
                 </Line>
                 <ButtonWrapper>
                     <SubmitButton
-                        data-testid="signup-button"
+                        data-testid='signup-button'
                         onClick={handleSignUp}
                         disabled={isDisabled}
                     >
