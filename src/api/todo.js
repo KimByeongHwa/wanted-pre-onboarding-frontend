@@ -1,7 +1,7 @@
 import { apiClient } from './client';
 
 // 조회
-export const getTodos = async () => {
+export const getToDos = async () => {
     try {
         const token = localStorage.getItem('token');
         const config = {
@@ -19,7 +19,7 @@ export const getTodos = async () => {
 };
 
 // 추가
-export const createTodo = async (content) => {
+export const createToDo = async (content) => {
     const token = localStorage.getItem('token');
     const config = {
         headers: { Authorization: `Bearer ${token}` },

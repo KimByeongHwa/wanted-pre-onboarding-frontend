@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import StyledButton from '../components/StyledButton';
-import { getTodos, createTodo } from '../api/todo';
+import { getToDos, createToDo } from '../api/todo';
 
 function ToDo() {
     const isLogin = localStorage.getItem('token');
@@ -16,7 +16,7 @@ function ToDo() {
     const [toDoList, setToDoList] = useState([]);
 
     useEffect(() => {
-        getTodos();
+        getToDos();
     }, []);
 
     function handleAddInput(e) {
@@ -24,13 +24,13 @@ function ToDo() {
     }
 
     async function addToDoList() {
-        const result = await createTodo(addInput);
+        const result = await createToDo(addInput);
         console.log(result);
     }
 
     function handleEnter(e) {
         if (e.key === 'Enter') {
-            createTodo(addInput);
+            createToDo(addInput);
         }
     }
 
