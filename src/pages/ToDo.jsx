@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import StyledButton from '../components/StyledButton';
+import { getTodos, createTodo } from '../api/todo';
 
 function ToDo() {
     const isLogin = localStorage.getItem('token');
@@ -11,12 +12,40 @@ function ToDo() {
         if (!isLogin) navigate('/signin');
     }, [isLogin]);
 
+    const [addInput, setAddInput] = useState('');
+    const [toDoList, setToDoList] = useState([]);
+
+    useEffect(() => {
+        getTodos();
+    }, []);
+
+    function handleAddInput(e) {
+        setAddInput(e.target.value);
+    }
+
+    async function addToDoList() {
+        const result = await createTodo(addInput);
+        console.log(result);
+    }
+
+    function handleEnter(e) {
+        if (e.key === 'Enter') {
+            createTodo(addInput);
+        }
+    }
+
     return (
         <Container>
             <Title>To Do List</Title>
             <InputContainer>
-                <StyledInput data-testid='new-todo-input' />
-                <StyledButton data-testid='new-todo-add-button'>추가</StyledButton>
+                <StyledInput
+                    data-testid='new-todo-input'
+                    onChange={handleAddInput}
+                    onKeyDown={handleEnter}
+                />
+                <StyledButton data-testid='new-todo-add-button' onClick={addToDoList}>
+                    추가
+                </StyledButton>
             </InputContainer>
             <ListContainer>
                 <List>
@@ -70,6 +99,7 @@ const List = styled.li`
     width: fit-content;
     margin: 0 auto;
     font-size: 1.2rem;
+    list-style: none;
 `;
 
 const StyledCheckBox = styled.input`
