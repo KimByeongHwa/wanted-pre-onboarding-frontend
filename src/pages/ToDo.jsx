@@ -25,6 +25,10 @@ function ToDo() {
         // console.log(addInput);
     }
 
+    function handleUpdateInput(e) {
+        setUpdateInput(e.target.value);
+    }
+
     // input 공백 검사
     function checkInputValidation() {
         const addInputArr = addInput.split('');
@@ -59,23 +63,37 @@ function ToDo() {
     }
 
     // To Do List 수정
-    async function updateToDoList(todo, isCompleted) {
-        setIsUpdateMode(true);
-        console.log(todo, isCompleted);
+    async function updateToDoList() {
+        console.log(updateInput);
         // const updateResult = updateToDo(todo, isCompleted);
         // console.log(updateResult);
     }
 
-    function toggleUpdate() {
-        setIsUpdateMode((prev) => !prev);
+    // TODO: 토글 켰을 때 inpur 창에 기존 todo default로 나와있도록.
+    function toggleUpdate(id) {
+        const toggleTarget = toDoList.map((e) => {
+            if (e.id === id) {
+                console.log(e);
+                return { ...e, isUpdateMode: !e.isUpdateMode };
+            }
+            return e;
+        });
+
+        setToDoList(toggleTarget);
     }
 
     // To Do List 삭제
     async function deleteToDoList() {}
 
-    function handleEnter(e) {
+    function EnterAdd(e) {
         if (e.key === 'Enter') {
             addToDoList();
+        }
+    }
+
+    function EnterUpdate(e) {
+        if (e.key === 'Enter') {
+            updateToDoList();
         }
     }
 
@@ -92,7 +110,7 @@ function ToDo() {
                 <AddInput
                     data-testid='new-todo-input'
                     onChange={handleAddInput}
-                    onKeyDown={handleEnter}
+                    onKeyDown={EnterAdd}
                     value={addInput}
                 />
                 <StyledButton
@@ -106,26 +124,40 @@ function ToDo() {
             <ListContainer>
                 {toDoList.map((e) => {
                     return (
-                        <ListLi key={e.id} isCompleted={e.isCompleted} userId={e.userId}>
+                        <ListLi
+                            key={e.id}
+                            isCompleted={e.isCompleted}
+                            userId={e.userId}
+                            isUpdateMode={e.isUpdateMode}
+                        >
                             <StyledLabel>
                                 <StyledCheckBox type='checkbox' />
                                 <ContentWrapper>
-                                    {isUpdateMode ? (
-                                        <UpdateInput data-testid='modify-input' />
+                                    {e.isUpdateMode ? (
+                                        <UpdateInput
+                                            data-testid='modify-input'
+                                            onChange={handleUpdateInput}
+                                            onKeyDown={EnterUpdate}
+                                            value={updateInput}
+                                        />
                                     ) : (
                                         <TextToDo>{e.todo}</TextToDo>
                                     )}
                                 </ContentWrapper>
 
-                                {isUpdateMode ? (
+                                {e.isUpdateMode ? (
                                     <Buttons>
-                                        <StyledButton data-testid='submit-button' small>
+                                        <StyledButton
+                                            data-testid='submit-button'
+                                            small
+                                            onClick={updateToDoList}
+                                        >
                                             제출
                                         </StyledButton>
                                         <StyledButton
                                             data-testid='cancel-button'
                                             small
-                                            onClick={toggleUpdate}
+                                            onClick={() => toggleUpdate(e.id)}
                                         >
                                             취소
                                         </StyledButton>
@@ -135,7 +167,7 @@ function ToDo() {
                                         <StyledButton
                                             data-testid='modify-button'
                                             small
-                                            onClick={toggleUpdate}
+                                            onClick={() => toggleUpdate(e.id)}
                                         >
                                             수정
                                         </StyledButton>
