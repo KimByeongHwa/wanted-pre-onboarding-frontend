@@ -19,13 +19,42 @@ export const getToDos = async () => {
 };
 
 // 추가
-export const createToDo = async (content) => {
-    const token = localStorage.getItem('token');
-    const config = {
-        headers: { Authorization: `Bearer ${token}` },
-    };
+export const createToDo = async (toDoText) => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: { Authorization: `Bearer ${token}` },
+        };
 
-    const response = await apiClient.post('/todos', { todo: content }, config);
-    return response.data;
-    // console.log(response);
+        const response = await apiClient.post('/todos', { todo: toDoText }, config);
+        // console.log(response);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
 };
+
+// 수정
+export const updateToDo = async (toDoText, checked) => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: { Authorization: `Bearer ${token}` },
+        };
+
+        const response = await apiClient.put(
+            'todos/:id',
+            { todo: toDoText, isCompleted: checked },
+            config
+        );
+        console.log(response);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
+// 삭제
+export const deleteToDo = async () => {};
