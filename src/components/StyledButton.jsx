@@ -15,10 +15,11 @@ const smallSize = css`
         css`
             font-size: 1rem;
             padding: 0.2rem 0.6rem;
-            margin-left: 2rem;
+            margin-left: 1.6rem;
 
             & + & {
-                margin-left: 0.4rem;
+                margin-left: 1.2rem;
+                margin-bottom: 1rem;
             }
         `}
 `;

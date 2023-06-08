@@ -10,7 +10,7 @@ export const getToDos = async () => {
 
         const response = await apiClient.get('/todos', config);
         // console.log(response);
-        console.log(response.data);
+        // console.log('현재 리스트', response.data);
         return response.data;
     } catch (error) {
         console.log(error);
