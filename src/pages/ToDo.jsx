@@ -162,7 +162,7 @@ const Title = styled.div`
     text-align: center;
     font-size: 2rem;
     font-weight: 500;
-    margin-bottom: 5rem;
+    margin-bottom: 4rem;
 `;
 
 const InputContainer = styled.div`
@@ -172,7 +172,7 @@ const InputContainer = styled.div`
 `;
 
 const AddInput = styled.input`
-    width: 16rem;
+    width: 20rem;
     padding: 0 0.2rem;
     font-size: 1.4rem;
     font-weight: 500;
