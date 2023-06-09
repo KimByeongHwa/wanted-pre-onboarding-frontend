@@ -16,9 +16,8 @@ function ToDo() {
     const [addInput, setAddInput] = useState(''); // 사용자가 input에 입력한 text를 담는다.
     const [toDoList, setToDoList] = useState([]); // To Do List를 담는다.
     const [isDisabledAdd, setIsDisAbledAdd] = useState(true); // 추가 input 공백 검사를 위해 사용
-    const [isUpdateMode, setIsUpdateMode] = useState(false); // 수정 모드 on/off
     const [updateInput, setUpdateInput] = useState(''); // 수정 Input
-    const [isDisabledUpdate, setIsDisabledUpdate] = useState(false); // 수정 input 공백 검사를 위해 사용
+    const [isDisabledUpdate, setIsDisabledUpdate] = useState(true); // 수정 input 공백 검사를 위해 사용
 
     function handleAddInput(e) {
         setAddInput(e.target.value);
@@ -27,19 +26,24 @@ function ToDo() {
 
     function handleUpdateInput(e) {
         setUpdateInput(e.target.value);
+        // console.log(updateInput);
     }
 
     // input 공백 검사
     function checkInputValidation() {
         const addInputArr = addInput.split('');
+        const updateInputArr = updateInput.split('');
 
         if (addInputArr.length > 0) setIsDisAbledAdd(false);
         else setIsDisAbledAdd(true);
+
+        if (updateInputArr.length > 0) setIsDisabledUpdate(false);
+        else setIsDisabledUpdate(true);
     }
 
     useEffect(() => {
         checkInputValidation();
-    }, [addInput]);
+    }, [addInput, updateInput]);
 
     // To Do List 조회
     async function getToDoList() {
@@ -69,11 +73,11 @@ function ToDo() {
         // console.log(updateResult);
     }
 
-    // TODO: 토글 켰을 때 inpur 창에 기존 todo default로 나와있도록.
     function toggleUpdate(id) {
         const toggleTarget = toDoList.map((e) => {
             if (e.id === id) {
-                console.log(e);
+                // console.log(e);
+                setUpdateInput(e.todo);
                 return { ...e, isUpdateMode: !e.isUpdateMode };
             }
             return e;
@@ -96,6 +100,9 @@ function ToDo() {
             updateToDoList();
         }
     }
+
+    // TODO: 체크박스 여부에 따른 isComplted 제어
+    function handleCheckBox() {}
 
     // useEffect(() => {
     //     console.log('리스트 변화 감지', toDoList);
@@ -133,34 +140,7 @@ function ToDo() {
                             <StyledLabel>
                                 <StyledCheckBox type='checkbox' />
 
-                                {e.isUpdateMode ? (
-                                    <>
-                                        <ContentWrapper>
-                                            <UpdateInput
-                                                data-testid='modify-input'
-                                                onChange={handleUpdateInput}
-                                                onKeyDown={EnterUpdate}
-                                                value={updateInput}
-                                            />
-                                        </ContentWrapper>
-                                        <Buttons>
-                                            <StyledButton
-                                                data-testid='submit-button'
-                                                small
-                                                onClick={updateToDoList}
-                                            >
-                                                제출
-                                            </StyledButton>
-                                            <StyledButton
-                                                data-testid='cancel-button'
-                                                small
-                                                onClick={() => toggleUpdate(e.id)}
-                                            >
-                                                취소
-                                            </StyledButton>
-                                        </Buttons>
-                                    </>
-                                ) : (
+                                {!e.isUpdateMode ? (
                                     <>
                                         <ContentWrapper>
                                             <TextToDo>{e.todo}</TextToDo>
@@ -175,6 +155,34 @@ function ToDo() {
                                             </StyledButton>
                                             <StyledButton data-testid='delete-button' small>
                                                 삭제
+                                            </StyledButton>
+                                        </Buttons>
+                                    </>
+                                ) : (
+                                    <>
+                                        <ContentWrapper>
+                                            <UpdateInput
+                                                data-testid='modify-input'
+                                                onChange={handleUpdateInput}
+                                                onKeyDown={EnterUpdate}
+                                                value={updateInput}
+                                            />
+                                        </ContentWrapper>
+                                        <Buttons>
+                                            <StyledButton
+                                                data-testid='submit-button'
+                                                small
+                                                onClick={updateToDoList}
+                                                disabled={isDisabledUpdate}
+                                            >
+                                                제출
+                                            </StyledButton>
+                                            <StyledButton
+                                                data-testid='cancel-button'
+                                                small
+                                                onClick={() => toggleUpdate(e.id)}
+                                            >
+                                                취소
                                             </StyledButton>
                                         </Buttons>
                                     </>
