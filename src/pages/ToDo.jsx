@@ -65,8 +65,8 @@ function ToDo() {
     }
 
     // To Do List 수정
-    async function updateToDoList(id, todo, isCompleted) {
-        const updateResult = await updateToDo(id, todo, isCompleted);
+    async function updateToDoList(id, todo, updatedIsCompleted) {
+        const updateResult = await updateToDo(id, todo, updatedIsCompleted);
         setToDoList([...toDoList, updateResult]);
     }
 
