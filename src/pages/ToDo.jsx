@@ -132,49 +132,52 @@ function ToDo() {
                         >
                             <StyledLabel>
                                 <StyledCheckBox type='checkbox' />
-                                <ContentWrapper>
-                                    {e.isUpdateMode ? (
-                                        <UpdateInput
-                                            data-testid='modify-input'
-                                            onChange={handleUpdateInput}
-                                            onKeyDown={EnterUpdate}
-                                            value={updateInput}
-                                        />
-                                    ) : (
-                                        <TextToDo>{e.todo}</TextToDo>
-                                    )}
-                                </ContentWrapper>
 
                                 {e.isUpdateMode ? (
-                                    <Buttons>
-                                        <StyledButton
-                                            data-testid='submit-button'
-                                            small
-                                            onClick={updateToDoList}
-                                        >
-                                            제출
-                                        </StyledButton>
-                                        <StyledButton
-                                            data-testid='cancel-button'
-                                            small
-                                            onClick={() => toggleUpdate(e.id)}
-                                        >
-                                            취소
-                                        </StyledButton>
-                                    </Buttons>
+                                    <>
+                                        <ContentWrapper>
+                                            <UpdateInput
+                                                data-testid='modify-input'
+                                                onChange={handleUpdateInput}
+                                                onKeyDown={EnterUpdate}
+                                                value={updateInput}
+                                            />
+                                        </ContentWrapper>
+                                        <Buttons>
+                                            <StyledButton
+                                                data-testid='submit-button'
+                                                small
+                                                onClick={updateToDoList}
+                                            >
+                                                제출
+                                            </StyledButton>
+                                            <StyledButton
+                                                data-testid='cancel-button'
+                                                small
+                                                onClick={() => toggleUpdate(e.id)}
+                                            >
+                                                취소
+                                            </StyledButton>
+                                        </Buttons>
+                                    </>
                                 ) : (
-                                    <Buttons>
-                                        <StyledButton
-                                            data-testid='modify-button'
-                                            small
-                                            onClick={() => toggleUpdate(e.id)}
-                                        >
-                                            수정
-                                        </StyledButton>
-                                        <StyledButton data-testid='delete-button' small>
-                                            삭제
-                                        </StyledButton>
-                                    </Buttons>
+                                    <>
+                                        <ContentWrapper>
+                                            <TextToDo>{e.todo}</TextToDo>
+                                        </ContentWrapper>
+                                        <Buttons>
+                                            <StyledButton
+                                                data-testid='modify-button'
+                                                small
+                                                onClick={() => toggleUpdate(e.id)}
+                                            >
+                                                수정
+                                            </StyledButton>
+                                            <StyledButton data-testid='delete-button' small>
+                                                삭제
+                                            </StyledButton>
+                                        </Buttons>
+                                    </>
                                 )}
                             </StyledLabel>
                         </ListLi>
