@@ -48,7 +48,7 @@ function ToDo() {
     // To Do List 조회
     async function getToDoList() {
         const list = await getToDos();
-        // console.log(list);
+        console.log(list);
         setToDoList(list);
     }
 
@@ -58,32 +58,35 @@ function ToDo() {
 
     // To Do List 추가
     async function addToDoList() {
-        if (isDisabledAdd === false) {
-            const addResult = await createToDo(addInput);
-            setToDoList([...toDoList, addResult]);
-            setAddInput('');
-            // console.log('현재 리스트', toDoList);
-        } else alert('추가할 할 일을 입력해주세요.');
+        const addResult = await createToDo(addInput);
+        setToDoList([...toDoList, addResult]);
+        setAddInput('');
+        // console.log('현재 리스트', toDoList);
     }
 
     // To Do List 수정
-    async function updateToDoList() {
-        console.log(updateInput);
-        // const updateResult = updateToDo(todo, isCompleted);
-        // console.log(updateResult);
+    async function updateToDoList(id, todo, isCompleted) {
+        const updateResult = await updateToDo(id, todo, isCompleted);
+        setToDoList([...toDoList, updateResult]);
     }
 
-    function toggleUpdate(id) {
-        const toggleTarget = toDoList.map((e) => {
+    // TODO
+    async function handleCheckBox(id, todo, isCompleted) {
+        const updateCheckBox = await updateToDo(id, todo, isCompleted);
+        setToDoList([...toDoList], updateCheckBox);
+    }
+
+    function toggleUpdateForm(id) {
+        const updatedList = toDoList.map((e) => {
             if (e.id === id) {
-                // console.log(e);
+                console.log(e);
                 setUpdateInput(e.todo);
                 return { ...e, isUpdateMode: !e.isUpdateMode };
             }
             return e;
         });
 
-        setToDoList(toggleTarget);
+        setToDoList(updatedList);
     }
 
     // To Do List 삭제
@@ -100,9 +103,6 @@ function ToDo() {
             updateToDoList();
         }
     }
-
-    // TODO: 체크박스 여부에 따른 isComplted 제어
-    function handleCheckBox() {}
 
     // useEffect(() => {
     //     console.log('리스트 변화 감지', toDoList);
@@ -138,7 +138,11 @@ function ToDo() {
                             isUpdateMode={e.isUpdateMode}
                         >
                             <StyledLabel>
-                                <StyledCheckBox type='checkbox' />
+                                <StyledCheckBox
+                                    type='checkbox'
+                                    checked={e.isCompleted}
+                                    onChange={() => handleCheckBox(e.id, e.todo, !e.isCompleted)}
+                                />
 
                                 {!e.isUpdateMode ? (
                                     <>
@@ -149,7 +153,7 @@ function ToDo() {
                                             <StyledButton
                                                 data-testid='modify-button'
                                                 small
-                                                onClick={() => toggleUpdate(e.id)}
+                                                onClick={() => toggleUpdateForm(e.id)}
                                             >
                                                 수정
                                             </StyledButton>
@@ -172,7 +176,9 @@ function ToDo() {
                                             <StyledButton
                                                 data-testid='submit-button'
                                                 small
-                                                onClick={updateToDoList}
+                                                onClick={() =>
+                                                    updateToDoList(e.id, updateInput, e.isCompleted)
+                                                }
                                                 disabled={isDisabledUpdate}
                                             >
                                                 제출
@@ -180,7 +186,7 @@ function ToDo() {
                                             <StyledButton
                                                 data-testid='cancel-button'
                                                 small
-                                                onClick={() => toggleUpdate(e.id)}
+                                                onClick={() => toggleUpdateForm(e.id)}
                                             >
                                                 취소
                                             </StyledButton>
@@ -223,7 +229,7 @@ const AddInput = styled.input`
 
 const ListContainer = styled.div`
     margin-top: 4rem;
-    height: 40vh;
+    height: 45vh;
     overflow: auto;
     padding: 1rem;
 `;

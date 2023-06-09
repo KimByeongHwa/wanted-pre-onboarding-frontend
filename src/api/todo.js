@@ -36,7 +36,7 @@ export const createToDo = async (toDoText) => {
 };
 
 // 수정
-export const updateToDo = async (toDoText, checked) => {
+export const updateToDo = async (id, toDoText, isCompleted) => {
     try {
         const token = localStorage.getItem('token');
         const config = {
@@ -44,8 +44,8 @@ export const updateToDo = async (toDoText, checked) => {
         };
 
         const response = await apiClient.put(
-            'todos/:id',
-            { todo: toDoText, isCompleted: checked },
+            `/todos/${id}`,
+            { todo: toDoText, isCompleted: isCompleted },
             config
         );
         console.log(response);
