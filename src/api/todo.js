@@ -57,4 +57,18 @@ export const updateToDo = async (id, toDoText, isCompleted) => {
 };
 
 // 삭제
-export const deleteToDo = async () => {};
+export const deleteToDo = async (id) => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: { Authorization: `Bearer ${token}` },
+        };
+
+        const response = await apiClient.delete(`/todos/${id}`, config);
+        console.log(response);
+        return response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};

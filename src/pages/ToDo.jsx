@@ -66,15 +66,13 @@ function ToDo() {
 
     // To Do List 수정
     async function updateToDoList(id, todo, updatedIsCompleted) {
-        const updateResult = await updateToDo(id, todo, updatedIsCompleted);
-        // setToDoList([...toDoList, updateResult]);
+        await updateToDo(id, todo, updatedIsCompleted);
         getToDoList();
     }
 
     // TODO
     async function handleCheckBox(id, todo, isCompleted) {
-        const updateCheckBox = await updateToDo(id, todo, isCompleted);
-        // setToDoList([...toDoList], updateCheckBox);
+        await updateToDo(id, todo, isCompleted);
         getToDoList();
     }
 
@@ -87,12 +85,14 @@ function ToDo() {
             }
             return e;
         });
-
         setToDoList(updatedList);
     }
 
     // To Do List 삭제
-    async function deleteToDoList() {}
+    async function deleteToDoList(id) {
+        await deleteToDo(id);
+        getToDoList();
+    }
 
     function EnterAdd(e) {
         if (e.key === 'Enter') {
@@ -153,7 +153,11 @@ function ToDo() {
                                             >
                                                 수정
                                             </StyledButton>
-                                            <StyledButton data-testid="delete-button" small>
+                                            <StyledButton
+                                                data-testid="delete-button"
+                                                small
+                                                onClick={() => deleteToDoList(e.id)}
+                                            >
                                                 삭제
                                             </StyledButton>
                                         </Buttons>
