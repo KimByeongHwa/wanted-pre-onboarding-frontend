@@ -48,7 +48,7 @@ function ToDo() {
     // To Do List 조회
     async function getToDoList() {
         const list = await getToDos();
-        console.log(list);
+        // console.log(list);
         setToDoList(list);
     }
 
@@ -67,13 +67,15 @@ function ToDo() {
     // To Do List 수정
     async function updateToDoList(id, todo, updatedIsCompleted) {
         const updateResult = await updateToDo(id, todo, updatedIsCompleted);
-        setToDoList([...toDoList, updateResult]);
+        // setToDoList([...toDoList, updateResult]);
+        getToDoList();
     }
 
     // TODO
     async function handleCheckBox(id, todo, isCompleted) {
         const updateCheckBox = await updateToDo(id, todo, isCompleted);
-        setToDoList([...toDoList], updateCheckBox);
+        // setToDoList([...toDoList], updateCheckBox);
+        getToDoList();
     }
 
     function toggleUpdateForm(id) {
@@ -98,12 +100,6 @@ function ToDo() {
         }
     }
 
-    function EnterUpdate(e) {
-        if (e.key === 'Enter') {
-            updateToDoList();
-        }
-    }
-
     // useEffect(() => {
     //     console.log('리스트 변화 감지', toDoList);
     // }, [toDoList]);
@@ -115,13 +111,13 @@ function ToDo() {
             <Title>To Do List</Title>
             <InputContainer>
                 <AddInput
-                    data-testid='new-todo-input'
+                    data-testid="new-todo-input"
                     onChange={handleAddInput}
                     onKeyDown={EnterAdd}
                     value={addInput}
                 />
                 <StyledButton
-                    data-testid='new-todo-add-button'
+                    data-testid="new-todo-add-button"
                     onClick={addToDoList}
                     disabled={isDisabledAdd}
                 >
@@ -139,7 +135,7 @@ function ToDo() {
                         >
                             <StyledLabel>
                                 <StyledCheckBox
-                                    type='checkbox'
+                                    type="checkbox"
                                     checked={e.isCompleted}
                                     onChange={() => handleCheckBox(e.id, e.todo, !e.isCompleted)}
                                 />
@@ -151,13 +147,13 @@ function ToDo() {
                                         </ContentWrapper>
                                         <Buttons>
                                             <StyledButton
-                                                data-testid='modify-button'
+                                                data-testid="modify-button"
                                                 small
                                                 onClick={() => toggleUpdateForm(e.id)}
                                             >
                                                 수정
                                             </StyledButton>
-                                            <StyledButton data-testid='delete-button' small>
+                                            <StyledButton data-testid="delete-button" small>
                                                 삭제
                                             </StyledButton>
                                         </Buttons>
@@ -166,15 +162,14 @@ function ToDo() {
                                     <>
                                         <ContentWrapper>
                                             <UpdateInput
-                                                data-testid='modify-input'
+                                                data-testid="modify-input"
                                                 onChange={handleUpdateInput}
-                                                onKeyDown={EnterUpdate}
                                                 value={updateInput}
                                             />
                                         </ContentWrapper>
                                         <Buttons>
                                             <StyledButton
-                                                data-testid='submit-button'
+                                                data-testid="submit-button"
                                                 small
                                                 onClick={() =>
                                                     updateToDoList(e.id, updateInput, e.isCompleted)
@@ -184,7 +179,7 @@ function ToDo() {
                                                 제출
                                             </StyledButton>
                                             <StyledButton
-                                                data-testid='cancel-button'
+                                                data-testid="cancel-button"
                                                 small
                                                 onClick={() => toggleUpdateForm(e.id)}
                                             >
