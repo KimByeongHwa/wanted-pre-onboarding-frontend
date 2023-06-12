@@ -145,7 +145,9 @@ function ToDo() {
                                 {!e.isUpdateMode ? (
                                     <>
                                         <ContentWrapper>
-                                            <TextToDo>{e.todo}</TextToDo>
+                                            <TextToDo isCompleted={e.isCompleted}>
+                                                {e.todo}
+                                            </TextToDo>
                                         </ContentWrapper>
                                         <Buttons>
                                             <StyledButton
@@ -291,6 +293,8 @@ const Buttons = styled.div`
 const TextToDo = styled.div`
     display: inline-block;
     width: 100%;
+    text-decoration: ${(props) => (props.isCompleted ? 'line-through' : 'none')};
+    color: ${(props) => (props.isCompleted ? '#ced4da' : '#000')};
 `;
 
 const UpdateInput = styled.input`
