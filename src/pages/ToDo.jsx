@@ -99,6 +99,13 @@ function ToDo() {
         }
     }
 
+    function EnterUpdate(event, e) {
+        if (event.key === 'Enter') {
+            const inputValue = event.target.value;
+            updateToDoList(e.id, inputValue, e.isCompleted);
+        }
+    }
+
     function onClickLogout() {
         localStorage.removeItem('token');
         navigate('/signin');
@@ -173,6 +180,7 @@ function ToDo() {
                                                 data-testid='modify-input'
                                                 onChange={handleUpdateInput}
                                                 value={updateInput}
+                                                onKeyDown={(event) => EnterUpdate(event, e)}
                                             />
                                         </ContentWrapper>
                                         <Buttons>
