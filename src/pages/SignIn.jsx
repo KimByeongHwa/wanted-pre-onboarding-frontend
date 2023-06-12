@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { signInApi } from '../api/signin';
 import StyledButton from '../components/StyledButton';
+import HomeButton from '../components/HomeButton';
 
 function SignIn() {
     const isLogin = localStorage.getItem('token');
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isLogin) navigate('/todo');
+        if (isLogin) {
+            navigate('/todo');
+        }
     }, [isLogin]);
 
     const [inputs, setInputs] = useState({
@@ -73,7 +76,10 @@ function SignIn() {
 
     return (
         <Container>
-            <Title>로그인</Title>
+            <Top>
+                <HomeButton />
+                <Title>로그인</Title>
+            </Top>
             <FormContainer>
                 <Line>
                     <LineText>이메일</LineText>
@@ -98,6 +104,9 @@ function SignIn() {
                         value={password}
                     />
                 </Line>
+                <GoToSignUp>
+                    <Link to='/signup'>회원가입 하러가기</Link>
+                </GoToSignUp>
                 <ButtonWrapper>
                     <StyledButton
                         data-testid='signin-button'
@@ -117,11 +126,20 @@ const Container = styled.div`
     margin: 0 auto;
 `;
 
+const Top = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    position: relative;
+`;
+
 const Title = styled.div`
     text-align: center;
     font-size: 2rem;
     font-weight: 500;
-    margin-bottom: 5rem;
+    flex-grow: 1;
 `;
 
 const FormContainer = styled.div`
@@ -150,6 +168,18 @@ const StyledInput = styled.input`
     width: 14rem;
     padding: 0.6rem;
     font-size: 1rem;
+`;
+
+const GoToSignUp = styled.div`
+    font-weight: 500;
+    margin-top: 2rem;
+    text-align: right;
+
+    a {
+        :hover {
+            color: #275efe;
+        }
+    }
 `;
 
 const ButtonWrapper = styled.div`

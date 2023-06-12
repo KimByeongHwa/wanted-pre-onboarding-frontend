@@ -35,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
         color: #333;
         width: 1200px;
         margin: 0 auto;
-        padding-top: 5%;
+        padding-top: 10%;
     }
 
     a{

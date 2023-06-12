@@ -3,13 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { signUpApi } from '../api/signup';
 import StyledButton from '../components/StyledButton';
+import HomeButton from '../components/HomeButton';
 
 function SignUp() {
     const isLogin = localStorage.getItem('token');
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isLogin) navigate('/todo');
+        if (isLogin) {
+            navigate('/todo');
+        }
     }, [isLogin]);
 
     const [inputs, setInputs] = useState({
@@ -72,7 +75,10 @@ function SignUp() {
 
     return (
         <Container>
-            <Title>회원가입</Title>
+            <Top>
+                <HomeButton />
+                <Title>회원가입</Title>
+            </Top>
             <FormContainer>
                 <Line>
                     <LineText>이메일</LineText>
@@ -116,11 +122,20 @@ const Container = styled.div`
     margin: 0 auto;
 `;
 
+const Top = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    position: relative;
+`;
+
 const Title = styled.div`
     text-align: center;
     font-size: 2rem;
     font-weight: 500;
-    margin-bottom: 5rem;
+    flex-grow: 1;
 `;
 
 const FormContainer = styled.div`

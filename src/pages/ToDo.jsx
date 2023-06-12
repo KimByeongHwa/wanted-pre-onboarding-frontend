@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import StyledButton from '../components/StyledButton';
+import HomeButton from '../components/HomeButton';
 import { getToDos, createToDo, updateToDo, deleteToDo } from '../api/todo';
 
 function ToDo() {
@@ -10,7 +11,9 @@ function ToDo() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isLogin) navigate('/signin');
+        if (!isLogin) {
+            navigate('/signin');
+        } else getToDoList();
     }, [isLogin]);
 
     const [addInput, setAddInput] = useState(''); // 사용자가 input에 입력한 text를 담는다.
@@ -52,10 +55,6 @@ function ToDo() {
         setToDoList(list);
     }
 
-    useEffect(() => {
-        getToDoList();
-    }, []);
-
     // To Do List 추가
     async function addToDoList() {
         const addResult = await createToDo(addInput);
@@ -79,7 +78,7 @@ function ToDo() {
     function toggleUpdateForm(id) {
         const updatedList = toDoList.map((e) => {
             if (e.id === id) {
-                console.log(e);
+                // console.log(e);
                 setUpdateInput(e.todo);
                 return { ...e, isUpdateMode: !e.isUpdateMode };
             }
@@ -100,24 +99,27 @@ function ToDo() {
         }
     }
 
-    // useEffect(() => {
-    //     console.log('리스트 변화 감지', toDoList);
-    // }, [toDoList]);
-
-    // console.log(toDoList);
+    function onClickLogout() {
+        localStorage.removeItem('token');
+        navigate('/signin');
+    }
 
     return (
         <Container>
-            <Title>To Do List</Title>
+            <Top>
+                <HomeButton />
+                <Title>To Do List</Title>
+                <LogoutButton onClick={onClickLogout}>로그아웃</LogoutButton>
+            </Top>
             <InputContainer>
                 <AddInput
-                    data-testid="new-todo-input"
+                    data-testid='new-todo-input'
                     onChange={handleAddInput}
                     onKeyDown={EnterAdd}
                     value={addInput}
                 />
                 <StyledButton
-                    data-testid="new-todo-add-button"
+                    data-testid='new-todo-add-button'
                     onClick={addToDoList}
                     disabled={isDisabledAdd}
                 >
@@ -135,7 +137,7 @@ function ToDo() {
                         >
                             <StyledLabel>
                                 <StyledCheckBox
-                                    type="checkbox"
+                                    type='checkbox'
                                     checked={e.isCompleted}
                                     onChange={() => handleCheckBox(e.id, e.todo, !e.isCompleted)}
                                 />
@@ -147,14 +149,14 @@ function ToDo() {
                                         </ContentWrapper>
                                         <Buttons>
                                             <StyledButton
-                                                data-testid="modify-button"
+                                                data-testid='modify-button'
                                                 small
                                                 onClick={() => toggleUpdateForm(e.id)}
                                             >
                                                 수정
                                             </StyledButton>
                                             <StyledButton
-                                                data-testid="delete-button"
+                                                data-testid='delete-button'
                                                 small
                                                 onClick={() => deleteToDoList(e.id)}
                                             >
@@ -166,14 +168,14 @@ function ToDo() {
                                     <>
                                         <ContentWrapper>
                                             <UpdateInput
-                                                data-testid="modify-input"
+                                                data-testid='modify-input'
                                                 onChange={handleUpdateInput}
                                                 value={updateInput}
                                             />
                                         </ContentWrapper>
                                         <Buttons>
                                             <StyledButton
-                                                data-testid="submit-button"
+                                                data-testid='submit-button'
                                                 small
                                                 onClick={() =>
                                                     updateToDoList(e.id, updateInput, e.isCompleted)
@@ -183,7 +185,7 @@ function ToDo() {
                                                 제출
                                             </StyledButton>
                                             <StyledButton
-                                                data-testid="cancel-button"
+                                                data-testid='cancel-button'
                                                 small
                                                 onClick={() => toggleUpdateForm(e.id)}
                                             >
@@ -206,11 +208,30 @@ const Container = styled.div`
     margin: 0 auto;
 `;
 
+const Top = styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    position: relative;
+    right: 3.5rem;
+`;
+
 const Title = styled.div`
     text-align: center;
     font-size: 2rem;
     font-weight: 500;
-    margin-bottom: 4rem;
+    flex-grow: 1;
+`;
+
+const LogoutButton = styled.div`
+    cursor: pointer;
+    font-weight: 600;
+
+    :hover {
+        color: #275efe;
+    }
 `;
 
 const InputContainer = styled.div`

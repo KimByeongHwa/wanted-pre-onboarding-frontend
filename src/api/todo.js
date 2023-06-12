@@ -13,7 +13,7 @@ export const getToDos = async () => {
         // console.log('현재 리스트', response.data);
         return response.data;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         throw error;
     }
 };
@@ -30,7 +30,7 @@ export const createToDo = async (toDoText) => {
         // console.log(response);
         return response.data;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         throw error;
     }
 };
@@ -48,10 +48,10 @@ export const updateToDo = async (id, toDoText, isCompleted) => {
             { todo: toDoText, isCompleted: isCompleted },
             config
         );
-        console.log(response);
+        // console.log(response);
         return response;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         throw error;
     }
 };
@@ -65,10 +65,10 @@ export const deleteToDo = async (id) => {
         };
 
         const response = await apiClient.delete(`/todos/${id}`, config);
-        console.log(response);
+        // console.log(response);
         return response;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         throw error;
     }
 };
